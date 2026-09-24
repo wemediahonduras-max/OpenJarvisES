@@ -1,0 +1,287 @@
+export type Locale = 'en' | 'es';
+
+export const LOCALES: { value: Locale; label: string }[] = [
+  { value: 'es', label: 'Español' },
+  { value: 'en', label: 'English' },
+];
+
+type Dict = Record<string, string>;
+
+export const en: Dict = {
+  'nav.chat': 'Chat',
+  'nav.dashboard': 'Dashboard',
+  'nav.dataSources': 'Data Sources',
+  'nav.agents': 'Agents',
+  'nav.logs': 'Logs',
+  'nav.settings': 'Settings',
+  'nav.getStarted': 'Get Started',
+
+  'sidebar.newChat': 'New chat',
+  'sidebar.searchChats': 'Search chats...',
+  'sidebar.selectModel': 'Select model',
+  'sidebar.loadingModel': 'Loading model...',
+  'sidebar.deepResearch': 'Deep Research',
+  'sidebar.theme': 'Theme: {current} (click for {next})',
+  'sidebar.theme.light': 'light',
+  'sidebar.theme.dark': 'dark',
+  'sidebar.theme.system': 'system',
+
+  'chat.greeting.morning': 'Good morning',
+  'chat.greeting.afternoon': 'Good afternoon',
+  'chat.greeting.evening': 'Good evening',
+  'chat.emptySubtitle': 'Ask anything. Your AI runs locally — private, fast, and always available.',
+  'chat.connectSources': 'Connect Data Sources',
+  'chat.setupChannels': 'Set Up Messaging Channels',
+  'chat.bannerSources': 'Connect your data sources (Gmail, iMessage, Slack, etc.) to get personalized answers.',
+  'chat.bannerConnect': 'Connect',
+  'chat.placeholder': 'Message OpenJarvis...',
+  'chat.pickModel': 'Pick a model first (⌘K)...',
+  'chat.pickModelShort': 'Pick a model first (⌘K)',
+  'chat.send': 'Send message',
+  'chat.stop': 'Stop generating',
+  'chat.researching': 'Researching...',
+  'chat.generating': 'Generating...',
+  'chat.generatingWith': 'Generating with {model}...',
+  'chat.deepResearchOn': 'Deep Research: on',
+  'chat.deepResearchOff': 'Deep Research: off',
+  'chat.hidePanel': 'Hide system panel',
+  'chat.showPanel': 'Show system panel',
+  'chat.newChat': 'New chat',
+  'chat.copy': 'Copy',
+  'chat.copied': 'Copied',
+
+  'conversations.empty': 'No conversations yet',
+  'conversations.noMatch': 'No matching chats',
+  'conversations.justNow': 'Just now',
+  'conversations.minutesAgo': '{n}m ago',
+  'conversations.hoursAgo': '{n}h ago',
+  'conversations.daysAgo': '{n}d ago',
+  'conversations.delete': 'Delete conversation',
+  'conversations.stopBeforeDelete': 'Stop generating before deleting this conversation',
+
+  'system.title': 'System',
+  'system.close': 'Close panel',
+  'system.session': 'Session',
+  'system.device': 'Device',
+  'system.cost': 'Cost Comparison',
+  'system.requests': 'Requests',
+  'system.outputTokens': 'Output Tokens',
+  'system.cpuTemp': 'CPU Temp',
+  'system.gpuTemp': 'GPU Temp',
+  'system.power': 'Power',
+  'system.energy': 'Energy',
+  'system.local': 'Local',
+  'system.leaderboard': 'Leaderboard',
+  'system.shareSavings': 'Share Your Savings',
+  'system.viewLeaderboard': 'View Leaderboard',
+
+  'settings.title': 'Settings',
+  'settings.subtitle': 'App preferences — appearance, model defaults, keyboard shortcuts, and data management.',
+  'settings.saved': 'Saved',
+  'settings.appearance': 'Appearance',
+  'settings.theme': 'Theme',
+  'settings.themeDesc': 'Choose how OpenJarvis looks',
+  'settings.theme.light': 'Light',
+  'settings.theme.dark': 'Dark',
+  'settings.theme.system': 'System',
+  'settings.fontSize': 'Font size',
+  'settings.font.small': 'Small',
+  'settings.font.default': 'Default',
+  'settings.font.large': 'Large',
+  'settings.language': 'Language',
+  'settings.languageDesc': 'Interface and assistant replies',
+
+  'settings.connection': 'Connection',
+  'settings.inference': 'Inference source',
+  'settings.models': 'Models',
+  'settings.apiKeys': 'API Keys',
+  'settings.tools': 'Tools',
+  'settings.memory': 'Memory',
+  'settings.modelDefaults': 'Model Defaults',
+  'settings.speech': 'Speech',
+  'settings.data': 'Data',
+  'settings.updates': 'Updates',
+  'settings.about': 'About',
+
+  'layout.backendUnreachable': 'Cannot reach OpenJarvis backend',
+  'layout.changeUrl': 'Change URL',
+
+  'error.title': 'Something went wrong',
+  'error.body': 'An unexpected error occurred.',
+  'error.retry': 'Try again',
+
+  'logs.title': 'Logs',
+  'logs.entries': '{n} entries',
+  'logs.copyAll': 'Copy All',
+  'logs.clear': 'Clear',
+  'logs.empty': 'No log entries yet',
+
+  'dashboard.title': 'System Overview',
+  'dashboard.subtitle': 'Live telemetry for the on-device inference engine — power draw, token throughput, and cost savings versus cloud APIs.',
+
+  'started.hero': 'Private AI that runs on your hardware. Chat, tools, agents, and energy profiling — no cloud required.',
+  'started.serverRunning': 'Server is running',
+  'started.startChatting': 'Start Chatting',
+  'started.serverDown': 'Server is not responding. The backend may be starting up.',
+  'started.checking': 'Checking server...',
+  'started.copy': 'Copy',
+
+  'agents.title': 'Agents',
+  'agents.new': 'New Agent',
+
+  'sources.title': 'Data Sources, Channels & Memory',
+  'sources.tabSources': 'Data Sources',
+  'sources.tabChannels': 'Messaging Channels',
+  'sources.tabMemory': 'Memory',
+};
+
+export const es: Dict = {
+  'nav.chat': 'Chat',
+  'nav.dashboard': 'Panel',
+  'nav.dataSources': 'Fuentes de datos',
+  'nav.agents': 'Agentes',
+  'nav.logs': 'Registros',
+  'nav.settings': 'Ajustes',
+  'nav.getStarted': 'Primeros pasos',
+
+  'sidebar.newChat': 'Chat nuevo',
+  'sidebar.searchChats': 'Buscar chats...',
+  'sidebar.selectModel': 'Elegir modelo',
+  'sidebar.loadingModel': 'Cargando modelo...',
+  'sidebar.deepResearch': 'Investigación profunda',
+  'sidebar.theme': 'Tema: {current} (clic para {next})',
+  'sidebar.theme.light': 'claro',
+  'sidebar.theme.dark': 'oscuro',
+  'sidebar.theme.system': 'sistema',
+
+  'chat.greeting.morning': 'Buenos días',
+  'chat.greeting.afternoon': 'Buenas tardes',
+  'chat.greeting.evening': 'Buenas noches',
+  'chat.emptySubtitle': 'Pregunta lo que quieras. Tu IA corre en local: privada, rápida y siempre disponible.',
+  'chat.connectSources': 'Conectar fuentes de datos',
+  'chat.setupChannels': 'Configurar canales de mensajería',
+  'chat.bannerSources': 'Conecta tus fuentes de datos (Gmail, iMessage, Slack, etc.) para respuestas personalizadas.',
+  'chat.bannerConnect': 'Conectar',
+  'chat.placeholder': 'Escribe a OpenJarvis...',
+  'chat.pickModel': 'Elige un modelo primero (⌘K)...',
+  'chat.pickModelShort': 'Elige un modelo primero (⌘K)',
+  'chat.send': 'Enviar mensaje',
+  'chat.stop': 'Detener generación',
+  'chat.researching': 'Investigando...',
+  'chat.generating': 'Generando...',
+  'chat.generatingWith': 'Generando con {model}...',
+  'chat.deepResearchOn': 'Investigación profunda: activada',
+  'chat.deepResearchOff': 'Investigación profunda: desactivada',
+  'chat.hidePanel': 'Ocultar panel del sistema',
+  'chat.showPanel': 'Mostrar panel del sistema',
+  'chat.newChat': 'Chat nuevo',
+  'chat.copy': 'Copiar',
+  'chat.copied': 'Copiado',
+
+  'conversations.empty': 'Aún no hay conversaciones',
+  'conversations.noMatch': 'Ningún chat coincide',
+  'conversations.justNow': 'Ahora mismo',
+  'conversations.minutesAgo': 'hace {n} min',
+  'conversations.hoursAgo': 'hace {n} h',
+  'conversations.daysAgo': 'hace {n} d',
+  'conversations.delete': 'Eliminar conversación',
+  'conversations.stopBeforeDelete': 'Detén la generación antes de borrar esta conversación',
+
+  'system.title': 'Sistema',
+  'system.close': 'Cerrar panel',
+  'system.session': 'Sesión',
+  'system.device': 'Dispositivo',
+  'system.cost': 'Comparación de costo',
+  'system.requests': 'Solicitudes',
+  'system.outputTokens': 'Tokens de salida',
+  'system.cpuTemp': 'Temp. CPU',
+  'system.gpuTemp': 'Temp. GPU',
+  'system.power': 'Potencia',
+  'system.energy': 'Energía',
+  'system.local': 'Local',
+  'system.leaderboard': 'Clasificación',
+  'system.shareSavings': 'Compartir tus ahorros',
+  'system.viewLeaderboard': 'Ver clasificación',
+
+  'settings.title': 'Ajustes',
+  'settings.subtitle': 'Preferencias de la app: apariencia, modelo, atajos y datos.',
+  'settings.saved': 'Guardado',
+  'settings.appearance': 'Apariencia',
+  'settings.theme': 'Tema',
+  'settings.themeDesc': 'Elige cómo se ve OpenJarvis',
+  'settings.theme.light': 'Claro',
+  'settings.theme.dark': 'Oscuro',
+  'settings.theme.system': 'Sistema',
+  'settings.fontSize': 'Tamaño de fuente',
+  'settings.font.small': 'Pequeña',
+  'settings.font.default': 'Predeterminada',
+  'settings.font.large': 'Grande',
+  'settings.language': 'Idioma',
+  'settings.languageDesc': 'Interfaz y respuestas del asistente',
+
+  'settings.connection': 'Conexión',
+  'settings.inference': 'Motor de inferencia',
+  'settings.models': 'Modelos',
+  'settings.apiKeys': 'Claves API',
+  'settings.tools': 'Herramientas',
+  'settings.memory': 'Memoria',
+  'settings.modelDefaults': 'Valores del modelo',
+  'settings.speech': 'Voz',
+  'settings.data': 'Datos',
+  'settings.updates': 'Actualizaciones',
+  'settings.about': 'Acerca de',
+
+  'layout.backendUnreachable': 'No se puede alcanzar el backend de OpenJarvis',
+  'layout.changeUrl': 'Cambiar URL',
+
+  'error.title': 'Algo salió mal',
+  'error.body': 'Ocurrió un error inesperado.',
+  'error.retry': 'Reintentar',
+
+  'logs.title': 'Registros',
+  'logs.entries': '{n} entradas',
+  'logs.copyAll': 'Copiar todo',
+  'logs.clear': 'Borrar',
+  'logs.empty': 'Aún no hay registros',
+
+  'dashboard.title': 'Resumen del sistema',
+  'dashboard.subtitle': 'Telemetría en vivo del motor local: consumo, tokens y ahorro frente a APIs en la nube.',
+
+  'started.hero': 'IA privada que corre en tu hardware. Chat, herramientas, agentes y perfil energético, sin nube.',
+  'started.serverRunning': 'El servidor está en marcha',
+  'started.startChatting': 'Empezar a chatear',
+  'started.serverDown': 'El servidor no responde. Puede que el backend todavía esté arrancando.',
+  'started.checking': 'Comprobando el servidor...',
+  'started.copy': 'Copiar',
+
+  'agents.title': 'Agentes',
+  'agents.new': 'Agente nuevo',
+
+  'sources.title': 'Fuentes de datos, canales y memoria',
+  'sources.tabSources': 'Fuentes de datos',
+  'sources.tabChannels': 'Canales de mensajería',
+  'sources.tabMemory': 'Memoria',
+};
+
+const dictionaries: Record<Locale, Dict> = { en, es };
+
+export function isLocale(value: unknown): value is Locale {
+  return value === 'en' || value === 'es';
+}
+
+export function t(
+  locale: Locale,
+  key: string,
+  vars?: Record<string, string | number>,
+): string {
+  const value = dictionaries[locale]?.[key] ?? en[key] ?? key;
+  if (!vars) return value;
+  return Object.entries(vars).reduce(
+    (acc, [name, raw]) => acc.replaceAll(`{${name}}`, String(raw)),
+    value,
+  );
+}
+
+export function isDefaultChatTitle(title: string): boolean {
+  return title === en['chat.newChat'] || title === es['chat.newChat'];
+}

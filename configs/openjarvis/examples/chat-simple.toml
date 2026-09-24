@@ -11,6 +11,9 @@
 [engine]
 default = "ollama"
 
+[system_prompt]
+language = "es"
+
 [intelligence]
 default_model = "qwen3.5:4b"       # Fast and lightweight
 # default_model = "qwen3.5:9b"     # Better quality

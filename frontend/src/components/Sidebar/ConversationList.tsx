@@ -1,24 +1,31 @@
 import { Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { useAppStore } from '../../lib/store';
+import { useT } from '../../lib/i18n';
 
 interface Props {
   searchQuery: string;
 }
 
-function formatRelativeTime(timestamp: number): string {
+function formatRelativeTime(
+  timestamp: number,
+  t: (key: string, vars?: Record<string, string | number>) => string,
+  locale: string,
+): string {
   const diff = Date.now() - timestamp;
   const minutes = Math.floor(diff / 60000);
-  if (minutes < 1) return 'Just now';
-  if (minutes < 60) return `${minutes}m ago`;
+  if (minutes < 1) return t('conversations.justNow');
+  if (minutes < 60) return t('conversations.minutesAgo', { n: minutes });
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
+  if (hours < 24) return t('conversations.hoursAgo', { n: hours });
   const days = Math.floor(hours / 24);
-  if (days < 7) return `${days}d ago`;
-  return new Date(timestamp).toLocaleDateString();
+  if (days < 7) return t('conversations.daysAgo', { n: days });
+  return new Date(timestamp).toLocaleDateString(locale === 'es' ? 'es' : 'en');
 }
 
 export function ConversationList({ searchQuery }: Props) {
+  const t = useT();
+  const locale = useAppStore((s) => s.settings.locale);
   const navigate = useNavigate();
   const conversations = useAppStore((s) => s.conversations);
   const activeId = useAppStore((s) => s.activeId);
@@ -37,7 +44,7 @@ export function ConversationList({ searchQuery }: Props) {
   if (filtered.length === 0) {
     return (
       <div className="px-3 py-8 text-center text-xs" style={{ color: 'var(--color-text-tertiary)' }}>
-        {searchQuery ? 'No matching chats' : 'No conversations yet'}
+        {searchQuery ? t('conversations.noMatch') : t('conversations.empty')}
       </div>
     );
   }
@@ -78,7 +85,7 @@ export function ConversationList({ searchQuery }: Props) {
                 {conv.title}
               </div>
               <div className="text-[11px] mt-0.5" style={{ color: 'var(--color-text-tertiary)' }}>
-                {formatRelativeTime(conv.updatedAt)}
+                {formatRelativeTime(conv.updatedAt, t, locale)}
               </div>
             </button>
             <button
@@ -95,8 +102,8 @@ export function ConversationList({ searchQuery }: Props) {
               onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-text-tertiary)')}
               title={
                 isStreaming
-                  ? 'Stop generating before deleting this conversation'
-                  : 'Delete conversation'
+                  ? t('conversations.stopBeforeDelete')
+                  : t('conversations.delete')
               }
             >
               <Trash2 size={14} />

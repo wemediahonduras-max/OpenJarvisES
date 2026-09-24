@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { ConversationList } from './ConversationList';
 import { useAppStore } from '../../lib/store';
+import { useT } from '../../lib/i18n';
 
 export function Sidebar() {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ export function Sidebar() {
 
   const settings = useAppStore((s) => s.settings);
   const updateSettings = useAppStore((s) => s.updateSettings);
+  const t = useT();
 
   const ThemeIcon = settings.theme === 'light' ? Sun : settings.theme === 'dark' ? Moon : Monitor;
   const nextTheme = settings.theme === 'light' ? 'dark' : settings.theme === 'dark' ? 'system' : 'light';
@@ -53,13 +55,13 @@ export function Sidebar() {
   };
 
   const navItems = [
-    { path: '/', icon: MessageSquare, label: 'Chat' },
-    { path: '/dashboard', icon: BarChart3, label: 'Dashboard' },
-    { path: '/data-sources', icon: Database, label: 'Data Sources' },
-    { path: '/agents', icon: Bot, label: 'Agents' },
-    { path: '/logs', icon: ScrollText, label: 'Logs' },
-    { path: '/settings', icon: Settings, label: 'Settings' },
-    { path: '/get-started', icon: Rocket, label: 'Get Started' },
+    { path: '/', icon: MessageSquare, label: t('nav.chat') },
+    { path: '/dashboard', icon: BarChart3, label: t('nav.dashboard') },
+    { path: '/data-sources', icon: Database, label: t('nav.dataSources') },
+    { path: '/agents', icon: Bot, label: t('nav.agents') },
+    { path: '/logs', icon: ScrollText, label: t('nav.logs') },
+    { path: '/settings', icon: Settings, label: t('nav.settings') },
+    { path: '/get-started', icon: Rocket, label: t('nav.getStarted') },
   ];
 
   return (
@@ -109,7 +111,10 @@ export function Sidebar() {
                 style={{ color: 'var(--color-text-secondary)' }}
                 onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg-tertiary)')}
                 onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-                title={`Theme: ${settings.theme} (click for ${nextTheme})`}
+                title={t('sidebar.theme', {
+                  current: t(`sidebar.theme.${settings.theme}`),
+                  next: t(`sidebar.theme.${nextTheme}`),
+                })}
               >
                 <ThemeIcon size={16} />
               </button>
@@ -119,7 +124,7 @@ export function Sidebar() {
                 style={{ color: 'var(--color-text-secondary)' }}
                 onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg-tertiary)')}
                 onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-                title="New chat"
+                title={t('sidebar.newChat')}
               >
                 <Plus size={18} />
               </button>
@@ -149,12 +154,12 @@ export function Sidebar() {
                 style={{ color: deepResearch ? 'var(--color-accent)' : 'var(--color-text)' }}
               >
                 {deepResearch
-                  ? 'Deep Research'
-                  : selectedModel || serverInfo?.model || 'Select model'}
+                  ? t('sidebar.deepResearch')
+                  : selectedModel || serverInfo?.model || t('sidebar.selectModel')}
               </span>
               {modelLoading && (
                 <span className="text-[10px] block text-left" style={{ color: 'var(--color-accent)' }}>
-                  Loading model...
+                  {t('sidebar.loadingModel')}
                 </span>
               )}
             </div>
@@ -177,7 +182,7 @@ export function Sidebar() {
               <Search size={14} style={{ color: 'var(--color-text-tertiary)' }} />
               <input
                 type="text"
-                placeholder="Search chats..."
+                placeholder={t('sidebar.searchChats')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="flex-1 bg-transparent outline-none text-sm"

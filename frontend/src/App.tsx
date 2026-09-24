@@ -55,6 +55,10 @@ export default function App() {
     else if (settings.theme === 'light') root.classList.add('light');
   }, [settings.theme]);
 
+  useEffect(() => {
+    document.documentElement.lang = settings.locale;
+  }, [settings.locale]);
+
   // Sync overlay conversations into the main app
   const importOverlay = useAppStore((s) => s.importOverlayConversation);
   useEffect(() => {

@@ -17,6 +17,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { isTauri, checkHealth } from '../lib/api';
+import { useT } from '../lib/i18n';
 
 const GITHUB_BASE =
   'https://github.com/open-jarvis/OpenJarvis/releases/latest/download';
@@ -183,6 +184,7 @@ function Section({
 // Hosted view: visitor on a deployed website
 // ---------------------------------------------------------------------------
 function HostedView() {
+  const t = useT();
   const navigate = useNavigate();
   const [healthy, setHealthy] = useState<boolean | null>(null);
 
@@ -205,15 +207,14 @@ function HostedView() {
         className="text-sm mb-6 leading-relaxed max-w-md mx-auto"
         style={{ color: 'var(--color-text-secondary)' }}
       >
-        Private AI that runs on your hardware. Chat, tools, agents, and
-        energy profiling &mdash; no cloud required.
+        {t('started.hero')}
       </p>
 
       {healthy === true && (
         <div className="flex flex-col items-center gap-4">
           <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-accent)' }}>
             <CheckCircle2 size={16} />
-            <span>Server is running</span>
+            <span>{t('started.serverRunning')}</span>
           </div>
           <button
             onClick={() => navigate('/')}
@@ -223,7 +224,7 @@ function HostedView() {
             onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
           >
             <MessageSquare size={18} />
-            Start Chatting
+            {t('started.startChatting')}
             <ArrowRight size={16} />
           </button>
         </div>
@@ -234,13 +235,13 @@ function HostedView() {
           className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm"
           style={{ background: 'color-mix(in srgb, var(--color-error) 10%, transparent)', color: 'var(--color-error)' }}
         >
-          Server is not responding. The backend may be starting up.
+          {t('started.serverDown')}
         </div>
       )}
 
       {healthy === null && (
         <div className="text-sm" style={{ color: 'var(--color-text-tertiary)' }}>
-          Checking server...
+          {t('started.checking')}
         </div>
       )}
     </div>
@@ -251,6 +252,7 @@ function HostedView() {
 // Desktop view: running in the Tauri app
 // ---------------------------------------------------------------------------
 function DesktopView() {
+  const t = useT();
   const navigate = useNavigate();
 
   return (
@@ -299,7 +301,7 @@ function DesktopView() {
           onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
         >
           <MessageSquare size={18} />
-          Start Chatting
+          {t('started.startChatting')}
           <ArrowRight size={16} />
         </button>
       </div>
@@ -321,6 +323,7 @@ function DesktopView() {
 // Self-hosted view: running on localhost (manual setup)
 // ---------------------------------------------------------------------------
 function SelfHostedView() {
+  const t = useT();
   const detectedId = useMemo(() => detectPlatform(), []);
   const primary = PLATFORMS.find((p) => p.id === detectedId) || PLATFORMS[0];
   const others = PLATFORMS.filter((p) => p.id !== primary.id);
@@ -342,8 +345,7 @@ function SelfHostedView() {
           className="text-sm mb-4 leading-relaxed max-w-md mx-auto"
           style={{ color: 'var(--color-text-secondary)' }}
         >
-          Private AI that runs on your hardware. Chat, tools, agents, and
-          energy profiling &mdash; no cloud required.
+          {t('started.hero')}
         </p>
         <span
           className="inline-block text-[11px] font-mono px-2.5 py-1 rounded-full"

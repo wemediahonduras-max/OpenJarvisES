@@ -231,6 +231,23 @@ class BaseAgent(ABC):
                 effective_system_prompt = cfg.agent.default_system_prompt or None
             except Exception:
                 effective_system_prompt = None
+        if effective_system_prompt:
+            from openjarvis.prompt.locale import (
+                apply_reply_language,
+                resolve_reply_language,
+            )
+
+            try:
+                cfg = load_config()
+                configured = getattr(
+                    getattr(cfg, "system_prompt", None), "language", ""
+                )
+            except Exception:
+                configured = ""
+            effective_system_prompt = apply_reply_language(
+                effective_system_prompt,
+                resolve_reply_language(configured),
+            )
         # Fold ALL in-context system messages (both auto-captured memory
         # context and caller-supplied system messages) into one leading system
         # message. Do this even when there is no independently-built prompt:

@@ -17,6 +17,7 @@ import type {
 import type { ManagedAgent } from './api';
 import { isEmbedOnlyModel } from './model-capabilities';
 import { serializeToolCallArguments } from './tool-call';
+import { isDefaultChatTitle, isLocale, t, type Locale } from './i18n/messages';
 
 export interface CachedConnector {
   connector_id: string;
@@ -92,9 +93,27 @@ function saveConversations(store: ConversationStore): void {
 }
 
 export type ThemeMode = 'light' | 'dark' | 'system';
+export type { Locale };
+
+function detectLocale(): Locale {
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (isLocale(parsed.locale)) return parsed.locale;
+    }
+  } catch {
+    // fall through to browser / default
+  }
+  if (typeof navigator !== 'undefined' && navigator.language.toLowerCase().startsWith('es')) {
+    return 'es';
+  }
+  return 'es';
+}
 
 interface Settings {
   theme: ThemeMode;
+  locale: Locale;
   apiUrl: string;
   // Local server API key (OPENJARVIS_API_KEY). Sent as a Bearer token on
   // /v1 + /api requests so a key-protected `jarvis serve` doesn't 401 the
@@ -111,6 +130,7 @@ interface Settings {
 function loadSettings(): Settings {
   const defaults: Settings = {
     theme: 'system',
+    locale: detectLocale(),
     apiUrl: '',
     apiKey: '',
     fontSize: 'default',
@@ -123,7 +143,9 @@ function loadSettings(): Settings {
   try {
     const raw = localStorage.getItem(SETTINGS_KEY);
     if (!raw) return defaults;
-    return { ...defaults, ...JSON.parse(raw) };
+    const merged = { ...defaults, ...JSON.parse(raw) };
+    if (!isLocale(merged.locale)) merged.locale = defaults.locale;
+    return merged;
   } catch {
     return defaults;
   }
@@ -347,7 +369,7 @@ export const useAppStore = create<AppState>((set, get) => {
       const store = loadConversations();
       const conv: Conversation = {
         id: generateId(),
-        title: 'New chat',
+        title: t(get().settings.locale, 'chat.newChat'),
         createdAt: Date.now(),
         updatedAt: Date.now(),
         model: model || get().selectedModel || 'default',
@@ -417,7 +439,7 @@ export const useAppStore = create<AppState>((set, get) => {
       if (!conv) return;
       conv.messages.push(message);
       conv.updatedAt = Date.now();
-      if (message.role === 'user' && conv.title === 'New chat') {
+      if (message.role === 'user' && isDefaultChatTitle(conv.title)) {
         conv.title =
           message.content.slice(0, 50) +
           (message.content.length > 50 ? '...' : '');

@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { toast } from 'sonner';
 import { useAppStore } from '../lib/store';
+import { useT } from '../lib/i18n';
 import {
   fetchManagedAgents,
   fetchAgentTasks,
@@ -3418,6 +3419,7 @@ function LogsTab({ agentId }: { agentId: string }) {
 // ---------------------------------------------------------------------------
 
 export function AgentsPage() {
+  const t = useT();
   const managedAgents = useAppStore((s) => s.managedAgents);
   const setManagedAgents = useAppStore((s) => s.setManagedAgents);
   const selectedAgentId = useAppStore((s) => s.selectedAgentId);
@@ -3921,7 +3923,7 @@ export function AgentsPage() {
       <header className="mb-6">
         <div className="flex justify-between items-center">
           <h1 className="text-lg font-semibold" style={{ color: 'var(--color-text)' }}>
-            Agents
+            {t('agents.title')}
           </h1>
           <button
             onClick={() => agentManagerAvailable && setShowWizard(true)}
@@ -3932,7 +3934,7 @@ export function AgentsPage() {
               color: agentManagerAvailable === false ? 'var(--color-text-tertiary)' : 'var(--color-on-accent)',
             }}
           >
-            <Plus size={15} /> New Agent
+            <Plus size={15} /> {t('agents.new')}
           </button>
         </div>
         <p className="text-sm mt-2 max-w-2xl" style={{ color: 'var(--color-text-secondary)' }}>

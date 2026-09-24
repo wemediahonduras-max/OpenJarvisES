@@ -1,6 +1,20 @@
 import { Component } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
 import { AlertTriangle, RotateCcw } from 'lucide-react';
+import { isLocale, t } from '../lib/i18n/messages';
+
+function currentLocale() {
+  try {
+    const raw = localStorage.getItem('openjarvis-settings');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (isLocale(parsed.locale)) return parsed.locale;
+    }
+  } catch {
+    // keep default
+  }
+  return document.documentElement.lang === 'en' ? 'en' : 'es';
+}
 
 interface Props {
   children: ReactNode;
@@ -37,10 +51,10 @@ export class ErrorBoundary extends Component<Props, State> {
               <AlertTriangle size={24} />
             </div>
             <h2 className="text-lg font-semibold mb-2" style={{ color: 'var(--color-text)' }}>
-              Something went wrong
+              {t(currentLocale(), 'error.title')}
             </h2>
             <p className="text-sm mb-4" style={{ color: 'var(--color-text-secondary)' }}>
-              {this.state.error?.message || 'An unexpected error occurred.'}
+              {this.state.error?.message || t(currentLocale(), 'error.body')}
             </p>
             <button
               onClick={() => this.setState({ hasError: false, error: null })}
@@ -48,7 +62,7 @@ export class ErrorBoundary extends Component<Props, State> {
               style={{ background: 'var(--color-accent)', color: 'var(--color-on-accent)' }}
             >
               <RotateCcw size={14} />
-              Try again
+              {t(currentLocale(), 'error.retry')}
             </button>
           </div>
         </div>

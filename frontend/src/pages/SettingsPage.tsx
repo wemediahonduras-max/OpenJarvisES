@@ -19,6 +19,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { useAppStore, type ThemeMode } from '../lib/store';
+import { LOCALES, useT } from '../lib/i18n';
 import {
   checkHealth,
   fetchSpeechHealth,
@@ -234,6 +235,7 @@ const themeOptions: { value: ThemeMode; label: string; icon: typeof Sun }[] = [
 ];
 
 export function SettingsPage() {
+  const t = useT();
   const settings = useAppStore((s) => s.settings);
   const updateSettings = useAppStore((s) => s.updateSettings);
   const conversations = useAppStore((s) => s.conversations);
@@ -377,26 +379,26 @@ export function SettingsPage() {
         <header className="mb-6">
           <div className="flex items-center justify-between gap-3">
             <h1 className="text-lg font-semibold" style={{ color: 'var(--color-text)' }}>
-              Settings
+              {t('settings.title')}
             </h1>
             {saved && (
               <span className="flex items-center gap-1 text-xs px-2 py-1 rounded-full" style={{
                 background: 'var(--color-accent-subtle)',
                 color: 'var(--color-success)',
               }}>
-                <Check size={12} /> Saved
+                <Check size={12} /> {t('settings.saved')}
               </span>
             )}
           </div>
           <p className="text-sm mt-2 max-w-2xl" style={{ color: 'var(--color-text-secondary)' }}>
-            App preferences — appearance, model defaults, keyboard shortcuts, and data management.
+            {t('settings.subtitle')}
           </p>
         </header>
 
         <div className="flex flex-col gap-4">
           {/* Appearance */}
-          <Section title="Appearance">
-            <SettingRow label="Theme" description="Choose how OpenJarvis looks">
+          <Section title={t('settings.appearance')}>
+            <SettingRow label={t('settings.theme')} description={t('settings.themeDesc')}>
               <div className="flex gap-1 p-0.5 rounded-lg" style={{ background: 'var(--color-bg-secondary)' }}>
                 {themeOptions.map((opt) => {
                   const isActive = settings.theme === opt.value;
@@ -412,13 +414,13 @@ export function SettingsPage() {
                       }}
                     >
                       <opt.icon size={14} />
-                      {opt.label}
+                      {t(`settings.theme.${opt.value}`)}
                     </button>
                   );
                 })}
               </div>
             </SettingRow>
-            <SettingRow label="Font size">
+            <SettingRow label={t('settings.fontSize')}>
               <select
                 value={settings.fontSize}
                 onChange={(e) => { updateSettings({ fontSize: e.target.value as any }); showSaved(); }}
@@ -429,15 +431,34 @@ export function SettingsPage() {
                   border: '1px solid var(--color-border)',
                 }}
               >
-                <option value="small">Small</option>
-                <option value="default">Default</option>
-                <option value="large">Large</option>
+                <option value="small">{t('settings.font.small')}</option>
+                <option value="default">{t('settings.font.default')}</option>
+                <option value="large">{t('settings.font.large')}</option>
               </select>
+            </SettingRow>
+            <SettingRow label={t('settings.language')} description={t('settings.languageDesc')}>
+              <div className="flex items-center gap-2">
+                <Globe size={14} style={{ color: 'var(--color-text-tertiary)' }} />
+                <select
+                  value={settings.locale}
+                  onChange={(e) => { updateSettings({ locale: e.target.value as 'en' | 'es' }); showSaved(); }}
+                  className="text-sm px-3 py-1.5 rounded-lg outline-none cursor-pointer"
+                  style={{
+                    background: 'var(--color-bg-secondary)',
+                    color: 'var(--color-text)',
+                    border: '1px solid var(--color-border)',
+                  }}
+                >
+                  {LOCALES.map((opt) => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+              </div>
             </SettingRow>
           </Section>
 
           {/* Connection */}
-          <Section title="Connection">
+          <Section title={t('settings.connection')}>
             <SettingRow label="Server status" description={serverInfo ? `${serverInfo.engine} / ${serverInfo.model}` : 'Not connected'}>
               <div className="flex items-center gap-2">
                 <span
@@ -481,7 +502,7 @@ export function SettingsPage() {
           </Section>
 
           {/* Inference source */}
-          <Section title="Inference source">
+          <Section title={t('settings.inference')}>
             <SettingRow label="Source" description="Where the app runs models. Applies after restart.">
               <select
                 value={srcKind}
@@ -533,7 +554,7 @@ export function SettingsPage() {
           </Section>
 
           {/* Models */}
-          <Section title="Models">
+          <Section title={t('settings.models')}>
             <SettingRow label="Local models (Ollama)" description="Models available for local inference">
               <OllamaModelList />
             </SettingRow>
@@ -551,7 +572,7 @@ export function SettingsPage() {
           </Section>
 
           {/* API Keys */}
-          <Section title="API Keys">
+          <Section title={t('settings.apiKeys')}>
             <SettingRow label="OpenAI" description="GPT-4, GPT-3.5, etc.">
               <ApiKeyInput keyName="OPENAI_API_KEY" placeholder="sk-..." />
             </SettingRow>
@@ -567,14 +588,14 @@ export function SettingsPage() {
           </Section>
 
           {/* Tools */}
-          <Section title="Tools">
+          <Section title={t('settings.tools')}>
             <SettingRow label="Web Search" description="Tavily key for web search tool">
               <ApiKeyInput keyName="TAVILY_API_KEY" placeholder="tvly-..." toolName="web_search" />
             </SettingRow>
           </Section>
 
           {/* Memory */}
-          <Section title="Memory">
+          <Section title={t('settings.memory')}>
             <SettingRow label="Memory status" description={memoryStats ? `${memoryStats.backend} backend — ${memoryStats.entries} entries` : 'Unable to reach memory service'}>
               <div className="flex items-center gap-2">
                 <Brain size={14} style={{ color: memoryStats ? 'var(--color-accent)' : 'var(--color-text-tertiary)' }} />
@@ -678,7 +699,7 @@ export function SettingsPage() {
           </Section>
 
           {/* Model defaults */}
-          <Section title="Model Defaults">
+          <Section title={t('settings.modelDefaults')}>
             <SettingRow label="Temperature" description={`${settings.temperature}`}>
               <input
                 type="range"
@@ -704,7 +725,7 @@ export function SettingsPage() {
           </Section>
 
           {/* Speech */}
-          <Section title="Speech">
+          <Section title={t('settings.speech')}>
             <SettingRow label="Speech-to-Text" description="Enable microphone input for voice dictation">
               <button
                 onClick={() => { updateSettings({ speechEnabled: !settings.speechEnabled }); showSaved(); }}
@@ -748,7 +769,7 @@ export function SettingsPage() {
           </Section>
 
           {/* Data */}
-          <Section title="Data">
+          <Section title={t('settings.data')}>
             <SettingRow label="Conversations" description={`${conversations.length} stored locally`}>
               <div className="flex gap-2">
                 <button
@@ -789,7 +810,7 @@ export function SettingsPage() {
           </Section>
 
           {/* Updates */}
-          <Section title="Updates">
+          <Section title={t('settings.updates')}>
             <SettingRow label="Auto-update" description="Check for new desktop builds automatically every 30 minutes">
               <button
                 onClick={() => handleAutoUpdateToggle(!autoUpdateEnabled)}
@@ -822,7 +843,7 @@ export function SettingsPage() {
           </Section>
 
           {/* About */}
-          <Section title="About">
+          <Section title={t('settings.about')}>
             <div className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
               <p className="mb-2">
                 <span className="font-semibold" style={{ color: 'var(--color-text)' }}>OpenJarvis</span> — Programming abstractions for on-device AI.

@@ -163,6 +163,20 @@ class OrchestratorAgent(ToolUsingAgent):
 
             sys_prompt = build_system_prompt(tools=self._tools)
 
+        from openjarvis.core.config import load_config
+        from openjarvis.prompt.locale import apply_reply_language, resolve_reply_language
+
+        try:
+            configured = getattr(
+                getattr(load_config(), "system_prompt", None), "language", ""
+            )
+        except Exception:
+            configured = ""
+        sys_prompt = apply_reply_language(
+            sys_prompt or "",
+            resolve_reply_language(configured),
+        )
+
         messages = self._build_messages(input, context, system_prompt=sys_prompt)
 
         all_tool_results: list[ToolResult] = []

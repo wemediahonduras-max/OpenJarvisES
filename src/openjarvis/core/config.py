@@ -1670,6 +1670,7 @@ class SystemPromptConfig:
     """Limits and strategy for system-prompt assembly."""
 
     prefix: str = ""
+    language: str = ""  # "en" | "es" — empty leaves model default
     soul_max_chars: int = 4000
     memory_max_chars: int = 2500
     user_max_chars: int = 1500

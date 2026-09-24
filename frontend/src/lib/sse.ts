@@ -1,5 +1,6 @@
 import type { ResearchEvent, SSEEvent } from '../types';
 import { getBase, authHeaders } from './api';
+import { useAppStore } from './store';
 
 export interface ChatRequest {
   model: string;
@@ -14,9 +15,13 @@ export async function* streamChat(
   signal?: AbortSignal,
 ): AsyncGenerator<SSEEvent> {
   const base = getBase();
+  const locale = useAppStore.getState().settings.locale;
   const response = await fetch(`${base}/v1/chat/completions`, {
     method: 'POST',
-    headers: authHeaders({ 'Content-Type': 'application/json' }),
+    headers: authHeaders({
+      'Content-Type': 'application/json',
+      'X-OpenJarvis-Locale': locale,
+    }),
     body: JSON.stringify(request),
     signal,
   });

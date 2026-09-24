@@ -158,6 +158,9 @@ def _ensure_identity_prompt(messages: list[Message], app_config) -> list[Message
 @router.post("/v1/chat/completions")
 async def chat_completions(request_body: ChatCompletionRequest, request: Request):
     """Handle chat completion requests (streaming and non-streaming)."""
+    from openjarvis.prompt.locale import set_request_language
+
+    set_request_language(request.headers.get("x-openjarvis-locale"))
     engine = request.app.state.engine
     agent = getattr(request.app.state, "agent", None)
     model = request_body.model

@@ -12,6 +12,7 @@ import { ResearchTimeline } from './ResearchTimeline';
 import { rehypeCitations } from '../../lib/rehype-citations';
 import { XRayFooter } from './XRayFooter';
 import type { ChatMessage } from '../../types';
+import { useT } from '../../lib/i18n';
 
 function stripThinkTags(text: string): string {
   let cleaned = text.replace(/<think>[\s\S]*?<\/think>\s*/gi, '');
@@ -38,6 +39,7 @@ function getTextContent(node: any): string {
 }
 
 function CodeBlockPre({ children, ...props }: any) {
+  const t = useT();
   const [copied, setCopied] = useState(false);
   const codeElement = Array.isArray(children) ? children[0] : children;
   const className = codeElement?.props?.className || '';
@@ -69,7 +71,7 @@ function CodeBlockPre({ children, ...props }: any) {
           onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-text-tertiary)')}
         >
           {copied ? <Check size={12} /> : <Copy size={12} />}
-          {copied ? 'Copied' : 'Copy'}
+          {copied ? t('chat.copied') : t('chat.copy')}
         </button>
       </div>
       <pre {...props} style={{ margin: 0, borderRadius: 0 }}>
@@ -80,6 +82,7 @@ function CodeBlockPre({ children, ...props }: any) {
 }
 
 function CopyMessageButton({ content }: { content: string }) {
+  const t = useT();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -93,7 +96,7 @@ function CopyMessageButton({ content }: { content: string }) {
       onClick={handleCopy}
       className="p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
       style={{ color: 'var(--color-text-tertiary)' }}
-      title="Copy message"
+      title={t('chat.copy')}
     >
       {copied ? <Check size={14} /> : <Copy size={14} />}
     </button>

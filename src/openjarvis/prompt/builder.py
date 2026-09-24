@@ -6,6 +6,7 @@ from typing import List, Literal, Optional, Tuple
 
 from openjarvis.core.config import MemoryFilesConfig, SystemPromptConfig
 from openjarvis.core.paths import get_config_dir
+from openjarvis.prompt.locale import apply_reply_language, resolve_reply_language
 
 PromptCacheSegment = Literal["frozen_prefix", "dynamic_suffix"]
 
@@ -59,7 +60,10 @@ class SystemPromptBuilder:
             parts.append(f"\n\n## Session Context\n\n{self._session_context}")
         if self._previous_state:
             parts.append(f"\n\n## Previous State\n\n{self._previous_state}")
-        return "".join(parts)
+        return apply_reply_language(
+            "".join(parts),
+            resolve_reply_language(self._sp_config.language),
+        )
 
     def sections(self) -> list[PromptSection]:
         """Return prompt sections with lightweight cache/debug metadata."""
